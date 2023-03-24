@@ -1,34 +1,43 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+const loginPage = require('../fixtures/pages/loginPage.json');
+const generalElements = require('../fixtures/pages/general.json');
+const boxPage = require('../fixtures/pages/boxPage.json');
+const inviteeBoxPage = require('../fixtures/pages/inviteeBoxPage.json');
+const invitePage = require('../fixtures/pages/invitePage.json');
+const drawPage = require('../fixtures/pages/drawPage.json');
 
-const loginPage = require("../fixtures/pages/loginPage.json");
-const generalElements = require("../fixtures/pages/general.json");
+Cypress.Commands.add('loginUI', (userEmail, userPassword) => {
+  cy.session([userEmail, userPassword], () => {
+    cy.visit('/login');
+    cy.get(loginPage.loginField).type(userEmail);
+    cy.get(loginPage.passwordField).type(userPassword);
+    cy.get(generalElements.submitButton).click({ force: true });
+    cy.clearCookies();
+  });
+});
 
-Cypress.Commands.add("login", (userName, password) => {
-  cy.get(loginPage.loginField).type(userName);
-  cy.get(loginPage.passwordField).type(password);
-  cy.get(generalElements.submitButton).click({ force: true });
+Cypress.Commands.add('newBox', (newBoxName, cashLimit, cashCurrency) => {
+  cy.contains('Создать коробку').click({ force: true });
+  cy.get(boxPage.boxNameField).type(newBoxName);
+  cy.get(generalElements.arrowRight).click();
+  cy.get(boxPage.sixthIcon).click();
+  cy.get(generalElements.arrowRight).click();
+  cy.get(boxPage.giftPriceToggle).check({ force: true });
+  cy.get(boxPage.maxAnount).type(cashLimit);
+  cy.get(boxPage.currency).select(cashCurrency);
+  cy.get(generalElements.arrowRight).click({ force: true });
+  cy.get(generalElements.arrowRight).click();
+});
+
+Cypress.Commands.add('cardParticipantAutor', (wishes) => {
+  cy.get(invitePage.createCardButton).click();
+  cy.get(generalElements.arrowRight).click();
+  cy.get(generalElements.arrowRight).click();
+  cy.get(inviteeBoxPage.wishesInput).type(wishes);
+  cy.get(generalElements.arrowRight).click();
+});
+
+Cypress.Commands.add('startDraw', () => {
+  cy.contains('Перейти к жеребьевке').click({ force: true });
+  cy.get(drawPage.submitButton).click({ force: true });
+  cy.get(drawPage.confirmButton).click({ force: true });
 });

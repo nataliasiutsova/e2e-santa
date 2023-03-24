@@ -1,0 +1,4 @@
+{
+  "submitButton": ".btn-main",
+  "confirmButton": ".santa-modal_content_buttons > .btn-main"
+}

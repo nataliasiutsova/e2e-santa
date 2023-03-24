@@ -1,3 +1,5 @@
 {
-  "createdBoxName": ".layout-1__header-wrapper-fixed .txt-h3--max-1-lines"
+  "createdBoxName": ".layout-1__header-wrapper-fixed .txt-h3--max-1-lines",
+  "drawLink": "a > .txt-secondary--med",
+  "userCards": ".MuiGrid-root > a > .user-card"
 }

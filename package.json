@@ -4,7 +4,8 @@
   "description": "",
   "main": "cypress.config.js",
   "scripts": {
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "cy:open:stage": "npx cypress open"
   },
   "author": "",
   "license": "ISC",

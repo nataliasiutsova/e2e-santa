@@ -1,3 +1,13 @@
 {
-  "inviteLink": ":nth-child(2) > .form-page-group__main b"
+  "inviteLink": ":nth-child(2) > .form-page-group__main b",
+  "createCardButton": ".layout-row-center > .btn-main",
+  "nameParticipant1Field": ":nth-child(1) > .frm-wrapper > #input-table-0",
+  "emailParticipant1Field": ":nth-child(2) > .frm-wrapper > #input-table-0",
+  "nameParticipant2Field": ":nth-child(3) > .frm-wrapper > #input-table-1",
+  "emailParticipant2Field": ":nth-child(4) > .frm-wrapper > #input-table-1",
+  "nameParticipant3Field": ":nth-child(5) > .frm-wrapper > #input-table-2",
+  "emailParticipant3Field": ":nth-child(6) > .frm-wrapper > #input-table-2",
+
+  "inviteButton": ".form-page__buttons > .btn-main",
+  "tip": ":nth-child(3) > .form-page-group__main > .tip"
 }
