@@ -123,6 +123,7 @@ When('I click Go to the draw link', () => {
 When('I click Start the draw button', () => {
   cy.get(drawPage.submitButton).click({ force: true });
   cy.get(drawPage.confirmButton).click({ force: true });
+  cy.get(drawPage.confirmButton).click({ force: true });
 });
 
 Then('I must see on the screen', (table) => {
@@ -144,21 +145,13 @@ When('User clicks Notification link in the header', () => {
   cy.get(generalElements.notificationLink).click();
 });
 
-Then('User must see the notification of the completed draw', () => {
+Then('User must see the notification of the draw', () => {
   cy.contains(
     `У тебя появился подопечный в коробке "${newBoxName}". Скорее переходи по кнопке, чтобы узнать кто это!`
   ).should('exist');
 });
 
 After({ tags: '@draw' }, () => {
-  cy.request({
-    method: 'POST',
-    url: '/api/login',
-    body: {
-      email: users.userAutor.email,
-      password: users.userAutor.password,
-    },
-  });
   cy.request({
     method: 'DELETE',
     url: '/api/box/' + keyBox,
