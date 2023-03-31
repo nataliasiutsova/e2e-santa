@@ -1,24 +1,35 @@
 const { defineConfig } = require('cypress');
-const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
-const addCucumberPreprocessorPlugin =
-  require('@badeball/cypress-cucumber-preprocessor').addCucumberPreprocessorPlugin;
-const createEsbuildPlugin =
-  require('@badeball/cypress-cucumber-preprocessor/esbuild').createEsbuildPlugin;
+const mysql = require('mysql');
+function querTestDb(query, config) {
+  const connection = mysql.createConnection(config.env.db);
+  connection.connect();
+  return new Promise((resolve, reject) => {
+    connection.query(query, (error, results) => {
+      if (error) reject(error);
+      else {
+        connection.end();
+        return resolve(results);
+      }
+    });
+  });
+}
 
 module.exports = defineConfig({
+  env: {
+    db: {
+      host: 'db4free.net',
+      user: 'natalia_siutsova',
+      password: 'volvoxc90',
+      database: 'database_test23',
+    },
+  },
   e2e: {
-    baseUrl: 'https://staging.lpitko.ru',
-    testIsolation: false,
-    watchForFileChanges: false,
-    specPattern: '**/*.feature',
     setupNodeEvents(on, config) {
-      const bundler = createBundler({
-        plugins: [createEsbuildPlugin(config)],
+      on('task', {
+        queryDb: (query) => {
+          return querTestDb(query, config);
+        },
       });
-      on('file:preprocessor', bundler);
-      addCucumberPreprocessorPlugin(on, config);
-
-      return config;
     },
   },
 });
