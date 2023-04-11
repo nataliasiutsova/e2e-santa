@@ -4,8 +4,13 @@
   "description": "",
   "main": "cypress.config.js",
   "scripts": {
-    "cy:run": "cypress run",
-    "cy:open:stage": "npx cypress open"
+    "cy:open:stage": "npx cypress open",
+    "cy:run": "cypress run --env allure=true",
+    "allure:report": "allure generate allure-results --clean -o allure-report && allure open allure-report",
+    "allure:clean": "rmdir/q /s allure-results && rmdir /q /s allure-report",
+    "before:test": "npm run allure:clean",
+    "test": "npm run cy:run || npm run after:test",
+    "after:test": "npm run allure:report"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +20,7 @@
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^15.1.5",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "@shelex/cypress-allure-plugin": "^2.38.3",
     "cypress": "^12.8.1",
     "esbuild": "^0.17.14"
   }
